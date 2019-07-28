@@ -1,0 +1,5 @@
+linear_regression.py  VS  logit_regression.py
+#expect hypothesis function, both data and cost function is same with each other
+#add normalization deal with origin data
+#support l2 regularization,but the result of training without L2 is better more with 1000 step.
+#so, did not use L2 by default.
