@@ -37,6 +37,7 @@ class simpleLinearRegression:
             b  -= alpha * delta_b
             
         return w1,  w2,  b     
+    
         
     def  linear(self, X,  w1,  w2,  b):
         weight =  [w1,  w2]
@@ -65,7 +66,7 @@ def  normalization(X,  Y):
             #X[i] =  (X[i] - xMin[i]) / (xMax[i] -  xMin[i])  
             update.append((X[i] - xMin[i]) / float(xMax[i] -  xMin[i]) )
         else:
-            update.append(X)
+            update.append(X[i])
             
     if   (yMax -  yMin) !=  0:
         Y =  (Y - yMin) /  (yMax -  yMin)
