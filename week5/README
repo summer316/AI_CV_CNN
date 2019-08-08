@@ -1,0 +1,4 @@
+1:   kmeansPlusPlus.py 
+     1: 数据庥: sklearn.datasets.make_moons
+     2: 聚类中心初始化方法： 从样本中随机选择， 或者以kmenas++里的方法选择
+2：
