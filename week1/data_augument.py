@@ -177,13 +177,14 @@ class dataAugument():
         return img
 
 
-
 def main(imgPath, inputSize, outputPath):
     #获取图像输入输出路径
     assert imgPath, 'please input path of image'
     if not os.path.exists(imgPath):
         os.mkdir(imgPath)
-        
+    if not os.path.exists(outputPath):
+        os.mkdir(outputPath)
+
     #获取图像随机列表
     image_list = np.array(get_images(imgPath))
     print('{} training images in {}'.format(image_list.shape[0], imgPath))
