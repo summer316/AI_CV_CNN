@@ -3,22 +3,6 @@ import cv2
 import numpy as np
 import time
 
-'''
-pseudo of CTMF
-Input: image X of size m*n, kernel radius r.
-output: image Y as X.
-for i = r to m - r do 
-　　for j = r to n - r do
-　　   initialize list A[]
-　　　　for a = i-r to i+r
-　　　　　　for b = j-r to j+r
-　　　　　　　　add X(a, b) to  A[]
-　　　　　　end 
-　　　　end
-　　　　sort A[] then Y(i ,j) = A[A.size/2]
-　　end
-end
-'''
 
 def salt(img, n):
     for k in range(n):
@@ -36,9 +20,10 @@ class medianBlur():
     def __init__(self, kernel_size):
         self.size = kernel_size
         self.skip = kernel_size // 2
-    
+        self.threshold = int(np.ceil(self.size**2 / 2))
+
     # padding_way:REPLICA  or  ZERO
-    def padding(self, img, padding_way):
+    def padding(self, img, padding_way=0):
         print('origin shape of image:  ',  np.shape(img))
         if padding_way == 1:
             img = np.pad(img, ((self.skip,self.skip),(self.skip,self.skip)), 'edge')
@@ -75,11 +60,11 @@ class medianBlur():
             self.getMedian(input, start, i - 1)
             self.getMedian(input, j + 1, end)
 
-        return input[len(input)//2]
+        return input[self.threshold -1]
 
 
     def blur(self, img, paddingWay=0):
-        # img = self.padding(img, paddingWay)
+        img = self.padding(img, paddingWay)
         h, w = img.shape
 
         for row in range(self.skip, h-self.skip):
@@ -93,11 +78,10 @@ class medianBlur():
             med = int(self.getMedian( kernerOutput, 0, len(kernerOutput)-1 ))
 
             #update hist in the first step for every row
-            for i in range(-self.skip, self.skip + 1):
-                for j in range(0, self.size):
-                    H[img[row+i][j]] += 1
-                    if img[row+i][j] <= med:
-                        n += 1
+            for pixel in kernerOutput:
+                H[pixel] += 1
+                if pixel <= med:
+                    n += 1
 
             for col in range(self.skip, w-self.skip):
                 if self.skip == col:
@@ -115,26 +99,23 @@ class medianBlur():
                             n += 1
 
                     # 重新计算中值
-                    threshold = int(np.ceil(self.size**2 / 2))
                     medList = list(np.where(H != 0)[0])
                   
-                    if n > threshold:
-                        while n > threshold:
-                            if (n - H[med] < threshold):
-                                break           
+                    if n > self.threshold:
+                        while n > self.threshold:
+                            if (n - H[med] < self.threshold):
+                                break
                             n -= H[med]
                             med = medList[medList.index(med)-1]
                             
                         
-                    elif n < threshold:
-                        while n < threshold:
+                    elif n < self.threshold:
+                        while n < self.threshold:
                             if med == medList[-1]:
                                 break
                             med = medList[medList.index(med)+1]
                             n += H[med]
                     
-                            
-
                 H[img[row][col]] -= 1
                 if med < img[row][col]:
                     n += 1
