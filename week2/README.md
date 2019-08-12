@@ -9,3 +9,35 @@
     CTMF是基于直方图的中值滤波，[http://files.cnblogs.com/Imageshop/AFastTwo-DimensionalMedianFilteringAlgorithm.pdf](CTMF 论文)
     此次实现的中值滤波是参考CTMF。
     支持不同大小的kernel和两种padding方式，用快速排序查找中值。
+    
+    '''
+    pseudo of CTMF
+    
+    Input: image X of size m*n, kernel radius r.
+    
+    output: image Y as X.
+    for i = r to m - r do  #遍历每一行，从第一个卷积中心开始，到最后一个卷积中心结束
+    
+      每进入一个新行时 初始化一个直方图;  n = 0，用来计数比中值小的数的多少
+      求得第一次卷积时的中值，用快速排序算法
+      更新直方图
+      
+      for j = r to n - r do  遍历每一列，从第一个卷积中心开始，到最后一个卷积中心结束 
+        如果是从左到右的第一个卷积，跳过
+
+        #更新直方图的值 
+        for a = i-r to i+r  遍历卷积对应的位置的每一行
+          for b = j-r to j+r  遍历卷积对应的位置的每一旬
+            卷积核左边的负一列的值对应的 直方图及 n 值都 减 1，
+            卷积核最右边的值对应 直方图 和 n 都加 1 
+          end 
+        end
+        
+        从得到的直方图里的值获取 中值
+        用中值对应此时的卷积核中心
+        
+      end
+      
+    end
+    '''
+    
