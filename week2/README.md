@@ -1,7 +1,5 @@
-##### RANSAC.py
-    pseudo
- 
-##### week2_median_blur.py: 中值滤波，
+
+##### medianBlur/medianBlur.py: 中值滤波，
     中值滤波有很多种实现方式，也有关于提高滤波的效率的研究。
     为此，中值滤波的方法有： SM(standart Median filter), MFM(mean_based fast median filters), 
     CTMF(Median Filtering in Constant Time)等  思路有 提高获取中值的效率，提高更新中值的效率。
@@ -40,4 +38,22 @@
       
     end
     '''
+##### imageStitching/
+###### image_stitching.py
+   * Pipeline of image stitching
+   * 1: find features points in each image by ransac 
+   * 2: use KNN to find keypoint matches
+   * 3: use RANSAC to find homography matrix to get transferring info
+   * 4: merge two image
+ 
+###### RANSAC.py
+    * ransac_v1: pseudo code of ransac
+    * ransac_v2: find homography matrix for two images stitching
     
+###### harrisCorner.py
+    * process of harris corner detection algorithm
+  
+###### 
+    * progress of HOG, undo
+    
+     
